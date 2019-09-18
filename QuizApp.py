@@ -19,7 +19,8 @@ class QuizApp():
         label1.grid(row=1,column=0)
         nxtbtn=tk.Button(text="Next",font=SMALLFONT,command=self.nxt_btn_cmd)
         nxtbtn.grid(row=2,column=0)
-
+        backbtn=tk.Button(text="Back",font=SMALLFONT,command=self.back_btn_cmd)
+        backbtn.grid(row=3,column=0)
     def radioBtnGen(self):
         self.radiobtnsframe=tk.Frame(relief="flat",borderwidth=2)
         for i in self.qNa[self.page][1:]:#Iterates through inner lists of qNa 
@@ -39,13 +40,14 @@ class QuizApp():
         print(self.rb_list)
         print(self.page)#4 debug
 
-    """def back_btn_cmd(self):
+    def back_btn_cmd(self):
         if self.page!=0:
             del self.attemptlist[-1] 
             self.page+=-1
+            self.radiobtnsframe.destroy()
+            self.radioBtnGen()
             print(self.page)#4 debug
-        else:
-            pass"""
+        
 if __name__ == "__main__":
     root=tk.Tk()
     app=QuizApp(root)
