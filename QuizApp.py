@@ -8,28 +8,35 @@ class QuizApp():
         self.cnter=0 #Counter for iterating through questions
         self.qNa=(("a","1","2","ey man","4"),("b","1","2","3"))#List of questions and answers
         self.v = tk.StringVar()#Variable for radiobuttons
+        self.radiobtnsframe=0
         self.page=0
         self.v.set("n/a")
         self.rb_list=[]
         self.attemptlist=[]
+        
         self.radioBtnGen()
         label1 = tk.Label(parent, textvariable = self.v) #tkinter converts IntVar to text for textvariable
-        label1.pack()
+        label1.grid(row=1,column=0)
         nxtbtn=tk.Button(text="Next",font=SMALLFONT,command=self.nxt_btn_cmd)
-        nxtbtn.pack()
+        nxtbtn.grid(row=2,column=0)
 
     def radioBtnGen(self):
-            for i in self.qNa[self.cnter][1:]:#Iterates through inner lists of qNa 
-                self.rb = tk.Radiobutton(variable = self.v, value = i, textvariable= i)
-                self.rb_list.append(self.rb)
-                self.rb.pack()   
+        self.radiobtnsframe=tk.Frame(relief="flat",borderwidth=2)
+        for i in self.qNa[self.page][1:]:#Iterates through inner lists of qNa 
+            self.rb = tk.Radiobutton(master=self.radiobtnsframe,variable = self.v, value = i, text= i)
+            self.rb_list.append(self.rb)
+            self.rb.pack()
+            self.radiobtnsframe.grid(row=0,column=0)
 
     def nxt_btn_cmd(self):
         rbValue=self.v.get()
         if rbValue != "n/a":
+            self.page+=1
             self.attemptlist.append(rbValue)
-        self.page+=1
-        #del self.rb_list[:]
+            self.radiobtnsframe.destroy()
+            self.radioBtnGen()
+        del self.rb_list[:]
+        print(self.rb_list)
         print(self.page)#4 debug
 
     """def back_btn_cmd(self):
