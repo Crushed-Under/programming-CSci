@@ -20,7 +20,7 @@ class QuizApp():
 
     def radioBtnGen(self):
             for i in self.qNa[self.cnter][1:]:#Iterates through inner lists of qNa 
-                self.rb = tk.Radiobutton(variable = self.v, value = i, textvariable= i)
+                self.rb = tk.Radiobutton(variable = self.v, value = i, text= i)
                 self.rb_list.append(self.rb)
                 self.rb.pack()   
 
@@ -28,6 +28,10 @@ class QuizApp():
         rbValue=self.v.get()
         if rbValue != "n/a":
             self.attemptlist.append(rbValue)
+            self.cnter+=1
+            self.radioBtnGen()
+        else:
+            pass
         self.page+=1
         #del self.rb_list[:]
         print(self.page)#4 debug
