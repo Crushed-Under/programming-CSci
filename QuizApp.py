@@ -1,12 +1,17 @@
 #Btn=Button cmd=command
 import tkinter as tk
 LARGEFONT=("Impact",72)
-SMALLFONT=("Verdana",18)
+SMALLFONT=("Verdana",12)
 
 class QuizApp():
     def __init__(self,parent):    
-        self.qNa=(("a","1","2","ey man","4"),("b","1","2","3"))#List of questions and answers
-        self.correctanswers=("ey man","1")
+        self.qNa=(("What is the capital city of Puerto Rico","San Juan","Tiquana","Honduras"),
+        ("What is the world's third largest sea?","The Mediterranean","The Tasman","The Black sea","The Caspian Sea"),
+        (" What is the capital of Qatar?","Abu Dubi","Dubai","Asur","Nineva"),
+        ("In which South American country is the Atacama desert?","Paraguay","Argentina","Chile","Ecuador"),
+        ("What is the least populated state in the US","Kansas","Missisipi","Wyoming")
+        )#List of questions and answers
+        self.correctanswers=("San Juan",)
         self.v = tk.StringVar()#Variable for radiobuttons
         self.radiobtnsframe=0
         self.page=0
@@ -21,18 +26,22 @@ class QuizApp():
         self.confirmlabel = tk.Label(parent, textvariable = self.v) #tkinter converts IntVar to text for textvariable
         self.confirmlabel.grid(row=1,column=0)
 
+        self.questionlabel= tk.Label(text="",font=SMALLFONT)
+
         nxtbtn=tk.Button(text="Next",font=SMALLFONT,command=self.nxt_btn_cmd)
-        nxtbtn.grid(row=2,column=0)
+        nxtbtn.grid(row=3,column=0)
 
         backbtn=tk.Button(text="Back",font=SMALLFONT,command=self.back_btn_cmd)
-        backbtn.grid(row=3,column=0)
+        backbtn.grid(row=4,column=0)
 
         resetbtn=tk.Button(text="Reset",font=SMALLFONT,command=self.reset_btn_cmd)
-        resetbtn.grid(row=4,column=0)
+        resetbtn.grid(row=5,column=0)
     def radio_btn_gen(self):
         self.radiobtnsframe=tk.Frame(relief="flat",borderwidth=2)
+        self.questionlabel.config(text=self.qNa[self.page][0])
         for i in self.qNa[self.page][1:]:#Iterates through inner lists of qNa 
-            self.rb = tk.Radiobutton(master=self.radiobtnsframe,variable = self.v, value = i, text= i,indicatoron=False)
+            self.rb = tk.Radiobutton(master=self.radiobtnsframe,variable = self.v, value = i, 
+            text= i,indicatoron=False,font=SMALLFONT)
             self.rblist.append(self.rb)
             self.rb.pack(fill="both")
             self.radiobtnsframe.grid(row=0,column=0)
@@ -47,11 +56,12 @@ class QuizApp():
                 correctattempts=[i for i, j in zip(self.attemptlist, self.correctanswers) if i == j]
                 wrongattempts=[i for i, j in zip(self.attemptlist, self.correctanswers) if i != j]
                 self.rightlabel.config(text="you got {} questions right".format(len(correctattempts)))
-                self.wronglabel.config(text="you got {} questions right".format(len(wrongattempts)))
+                self.wronglabel.config(text="you got {} questions wrong".format(len(wrongattempts)))
                 self.rightlabel.grid(row=0,column=1)
                 self.wronglabel.grid(row=0,column=2)
                 self.radiobtnsframe.destroy()
                 self.confirmlabel.destroy()
+                self.questionlabel.destroy()
                 return
             self.attemptlist.append(rbValue)
             self.radiobtnsframe.destroy()
