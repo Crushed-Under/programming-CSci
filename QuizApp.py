@@ -5,8 +5,8 @@ SMALLFONT=("Verdana",18)
 
 class QuizApp():
     def __init__(self,parent):    
-        self.cnter=0 #Counter for iterating through questions
         self.qNa=(("a","1","2","ey man","4"),("b","1","2","3"))#List of questions and answers
+        self.correctanswers=("ey man","1")
         self.v = tk.StringVar()#Variable for radiobuttons
         self.radiobtnsframe=0
         self.page=0
@@ -28,17 +28,25 @@ class QuizApp():
             self.rb_list.append(self.rb)
             self.rb.pack()
             self.radiobtnsframe.grid(row=0,column=0)
-
+        self.v.set("n/a")
     def nxt_btn_cmd(self):
         rbValue=self.v.get()
         if rbValue != "n/a":
             self.page+=1
+            print(self.page)
+            if self.page+1 > len(self.qNa):
+                correctattempts=[i for i, j in zip(self.attemptlist, self.correctanswers) if i == j]
+                wrongattempts=[i for i, j in zip(self.attemptlist, self.correctanswers) if i != j]
+                print(correctattempts)
+                print(wrongattempts)
+                return
+            else:
+                print("fuck")
             self.attemptlist.append(rbValue)
             self.radiobtnsframe.destroy()
             self.radioBtnGen()
         del self.rb_list[:]
         print(self.rb_list)
-        print(self.page)#4 debug
 
     def back_btn_cmd(self):
         if self.page!=0:
