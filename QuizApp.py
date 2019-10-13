@@ -50,13 +50,13 @@ class QuizApp():
                 self.wronglabel.config(text="you got {} questions right".format(len(wrongattempts)))
                 self.rightlabel.grid(row=0,column=1)
                 self.wronglabel.grid(row=0,column=2)
-                self.radiobtnsframe.destroy()
+                #self.radiobtnsframe.destroy()
                 self.confirmlabel.destroy()
                 return
             self.attemptlist.append(rbValue)
             self.radiobtnsframe.destroy()
             self.radio_btn_gen()
-        del self.rblist[:]
+        #del self.rblist[:]
         print(self.rblist)
 
     def back_btn_cmd(self):
