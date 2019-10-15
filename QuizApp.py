@@ -26,9 +26,6 @@ class QuizApp():
         self.confirmlabel = tk.Label(parent, textvariable = self.v) #tkinter converts IntVar to text for textvariable
         self.confirmlabel.grid(row=1,column=1)
 
-        self.questionvar=tk.StringVar()
-        self.questionvar.set(self.qNa[self.page][0])
-
         nxtbtn=tk.Button(text="Next",font=SMALLFONT,command=self.nxt_btn_cmd)
         nxtbtn.grid(row=4,column=0)
 
@@ -38,11 +35,14 @@ class QuizApp():
         resetbtn=tk.Button(text="Reset",font=SMALLFONT,command=self.reset_btn_cmd)
         resetbtn.grid(row=6,column=0)
 
+    def question_func(self,x):
+        questionlabel=tk.Label(text=self.qNa[self.page][0],font=SMALLFONT)
+        questionlabel.grid(row=0,column=0)
+        if x==False:
+            questionlabel.destroy()
+
     def radio_btn_gen(self):
-        self.questionlabel=tk.Label(text=self.qNa[self.page][0],font=SMALLFONT)
-        self.questionlabel.grid(row=0,column=0)
-        if self.page != 0:
-            self.questionlabel.destroy 
+        self.question_func(True)
         self.radiobtnsframe=tk.Frame(relief="flat",borderwidth=2)
         for i in self.qNa[self.page][1:]:#Iterates through inner lists of qNa 
             self.rb = tk.Radiobutton(master=self.radiobtnsframe,variable = self.v, value = i, 
@@ -54,7 +54,6 @@ class QuizApp():
         
     def nxt_btn_cmd(self):
         rbValue=self.v.get()
-        self.questionvar.set(self.qNa[self.page][0])
         if rbValue != "n/a":
             self.page+=1
             print(self.page)
@@ -67,9 +66,11 @@ class QuizApp():
                 self.wronglabel.grid(row=0,column=2)
                 self.radiobtnsframe.destroy()
                 self.confirmlabel.destroy()
+                self.question_func(False)
                 return
             self.attemptlist.append(rbValue)
             self.radiobtnsframe.destroy()
+            self.question_func(False)
             self.radio_btn_gen()
         del self.rblist[:]
         print(self.rblist)
@@ -80,9 +81,10 @@ class QuizApp():
             self.page+=-1
             self.radiobtnsframe.destroy()
             self.radio_btn_gen()
-
+            self.question_func(False)
     def reset_btn_cmd(self):
         self.radiobtnsframe.destroy()
+        self.question_func(False)
         del self.attemptlist[:]
         self.page=0
         self.radio_btn_gen()
