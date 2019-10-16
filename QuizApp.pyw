@@ -42,7 +42,7 @@ class QuizApp():
     def labelinit(self):
         self.rightlabel=tk.Label(font=SMALLFONT)
         self.wronglabel=tk.Label(font=SMALLFONT)
-        self.questionlabel=tk.Label(parent,textvariable=self.questionvar,font=SMALLFONT)
+        self.questionlabel=tk.Label(textvariable=self.questionvar,font=SMALLFONT)
 
     def radio_btn_gen(self):
         self.questionvar.set(self.qNa[self.page][0])
