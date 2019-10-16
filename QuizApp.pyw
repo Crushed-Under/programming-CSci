@@ -19,7 +19,9 @@ class QuizApp():
         self.rblist=[]
         self.attemptlist=[]        
 
-        self.questionlabel=tk.Label(parent,text=self.qNa[self.page][0],font=SMALLFONT)
+        self.questionvar=tk.StringVar()
+        self.questionlabel=tk.Label(parent,textvariable=self.questionvar,font=SMALLFONT)
+        self.questionlabel.grid(row=0,column=0)
 
         self.rightlabel=tk.Label(font=SMALLFONT)
         self.wronglabel=tk.Label(font=SMALLFONT)
@@ -36,10 +38,16 @@ class QuizApp():
         self.resetbtn=tk.Button(text="Reset",font=SMALLFONT,command=self.reset_btn_cmd)
         self.resetbtn.grid(row=6,column=0)
         self.radio_btn_gen()
+
+    def labelinit(self):
+        self.rightlabel=tk.Label(font=SMALLFONT)
+        self.wronglabel=tk.Label(font=SMALLFONT)
+        self.questionlabel=tk.Label(parent,textvariable=self.questionvar,font=SMALLFONT)
+
     def radio_btn_gen(self):
-        self.questionlabel.grid(row=0,column=0)
+        self.questionvar.set(self.qNa[self.page][0])
         self.radiobtnsframe=tk.Frame(relief="flat",borderwidth=2)
-        for i in self.qNa[self.page][1:]:#Iterates through inner lists of qNa 
+        for i in self.qNa[self.page][1:]:#Iterates through inner lists of qNa
             self.rb = tk.Radiobutton(master=self.radiobtnsframe,variable = self.v, value = i, 
             text= i,indicatoron=False,font=SMALLFONT)
             self.rblist.append(self.rb)
@@ -52,6 +60,7 @@ class QuizApp():
         if rbValue != "n/a":
             self.page+=1
             print(self.page)
+            self.attemptlist.append(rbValue)
             if self.page+1 > len(self.qNa):
                 correctattempts=[i for i, j in zip(self.attemptlist, self.correctanswers) if i == j]
                 wrongattempts=[i for i, j in zip(self.attemptlist, self.correctanswers) if i != j]
@@ -65,26 +74,28 @@ class QuizApp():
                 self.radiobtnsframe.destroy()
                 self.confirmlabel.destroy()
                 return
-            self.attemptlist.append(rbValue)
             self.radiobtnsframe.destroy()
-            self.questionlabel.destroy()
             self.radio_btn_gen()
         del self.rblist[:]
 
     def back_btn_cmd(self):
         if self.page!=0:
+            if self.page+1 > len(self.qNa):
+                self.rightlabel.destroy()
+                self.wronglabel.destroy()
             del self.attemptlist[-1] 
             self.page+=-1
             self.radiobtnsframe.destroy()
             self.radio_btn_gen()
-            self.questionlabel.destroy()
+            self.questionlabel.grid(row=0,column=0)
     def reset_btn_cmd(self):
         self.radiobtnsframe.destroy()
-        self.questionlabel.destroy()
+        self.rightlabel.destroy()
+        self.wronglabel.destroy()
         del self.attemptlist[:]
         self.page=0
         self.radio_btn_gen()
-
+        self.questionlabel.grid(row=0,column=0)
 
 if __name__ == "__main__":
     root=tk.Tk()
