@@ -70,9 +70,9 @@ class QuizApp():
                 self.wronglabel.config(text="you got {} questions wrong".format(len(wrongattempts)))
                 self.rightlabel.grid(row=0,column=0)
                 self.wronglabel.grid(row=1,column=0)
-                self.questionlabel.destroy()
+                self.questionlabel.grid_remove()
                 self.radiobtnsframe.destroy()
-                self.confirmlabel.destroy()
+                self.confirmlabel.grid_remove()
                 return
             self.radiobtnsframe.destroy()
             self.radio_btn_gen()
@@ -81,8 +81,8 @@ class QuizApp():
     def back_btn_cmd(self):
         if self.page!=0:
             if self.page+1 > len(self.qNa):
-                self.rightlabel.destroy()
-                self.wronglabel.destroy()
+                self.rightlabel.grid_remove()
+                self.wronglabel.grid_remove()
             del self.attemptlist[-1] 
             self.page+=-1
             self.radiobtnsframe.destroy()
@@ -90,8 +90,8 @@ class QuizApp():
             self.questionlabel.grid(row=0,column=0)
     def reset_btn_cmd(self):
         self.radiobtnsframe.destroy()
-        self.rightlabel.destroy()
-        self.wronglabel.destroy()
+        self.rightlabel.grid_remove()
+        self.wronglabel.grid_remove()
         del self.attemptlist[:]
         self.page=0
         self.radio_btn_gen()
