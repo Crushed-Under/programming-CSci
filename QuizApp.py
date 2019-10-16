@@ -18,7 +18,8 @@ class QuizApp():
         self.v.set("n/a")
         self.rblist=[]
         self.attemptlist=[]        
-        self.radio_btn_gen()
+
+        self.questionlabel=tk.Label(parent,text=self.qNa[self.page][0],font=SMALLFONT)
 
         self.rightlabel=tk.Label(font=SMALLFONT)
         self.wronglabel=tk.Label(font=SMALLFONT)
@@ -26,23 +27,17 @@ class QuizApp():
         self.confirmlabel = tk.Label(parent, textvariable = self.v) #tkinter converts IntVar to text for textvariable
         self.confirmlabel.grid(row=1,column=1)
 
-        self.questionvar=tk.StringVar()
-        self.questionvar.set(self.qNa[self.page][0])
+        self.nxtbtn=tk.Button(text="Next",font=SMALLFONT,command=self.nxt_btn_cmd)
+        self.nxtbtn.grid(row=4,column=0)
 
-        nxtbtn=tk.Button(text="Next",font=SMALLFONT,command=self.nxt_btn_cmd)
-        nxtbtn.grid(row=4,column=0)
+        self.backbtn=tk.Button(text="Back",font=SMALLFONT,command=self.back_btn_cmd)
+        self.backbtn.grid(row=5,column=0)
 
-        backbtn=tk.Button(text="Back",font=SMALLFONT,command=self.back_btn_cmd)
-        backbtn.grid(row=5,column=0)
-
-        resetbtn=tk.Button(text="Reset",font=SMALLFONT,command=self.reset_btn_cmd)
-        resetbtn.grid(row=6,column=0)
-
+        self.resetbtn=tk.Button(text="Reset",font=SMALLFONT,command=self.reset_btn_cmd)
+        self.resetbtn.grid(row=6,column=0)
+        self.radio_btn_gen()
     def radio_btn_gen(self):
-        self.questionlabel=tk.Label(text=self.qNa[self.page][0],font=SMALLFONT)
         self.questionlabel.grid(row=0,column=0)
-        if self.page != 0:
-            self.questionlabel.destroy 
         self.radiobtnsframe=tk.Frame(relief="flat",borderwidth=2)
         for i in self.qNa[self.page][1:]:#Iterates through inner lists of qNa 
             self.rb = tk.Radiobutton(master=self.radiobtnsframe,variable = self.v, value = i, 
@@ -54,25 +49,27 @@ class QuizApp():
         
     def nxt_btn_cmd(self):
         rbValue=self.v.get()
-        self.questionvar.set(self.qNa[self.page][0])
         if rbValue != "n/a":
             self.page+=1
             print(self.page)
             if self.page+1 > len(self.qNa):
                 correctattempts=[i for i, j in zip(self.attemptlist, self.correctanswers) if i == j]
                 wrongattempts=[i for i, j in zip(self.attemptlist, self.correctanswers) if i != j]
+                print(correctattempts)
+                print(wrongattempts)
                 self.rightlabel.config(text="you got {} questions right".format(len(correctattempts)))
                 self.wronglabel.config(text="you got {} questions wrong".format(len(wrongattempts)))
-                self.rightlabel.grid(row=0,column=1)
-                self.wronglabel.grid(row=0,column=2)
-                #self.radiobtnsframe.destroy()
+                self.rightlabel.grid(row=0,column=0)
+                self.wronglabel.grid(row=1,column=0)
+                self.questionlabel.destroy()
+                self.radiobtnsframe.destroy()
                 self.confirmlabel.destroy()
                 return
             self.attemptlist.append(rbValue)
             self.radiobtnsframe.destroy()
+            self.questionlabel.destroy()
             self.radio_btn_gen()
-        #del self.rblist[:]
-        print(self.rblist)
+        del self.rblist[:]
 
     def back_btn_cmd(self):
         if self.page!=0:
@@ -80,9 +77,10 @@ class QuizApp():
             self.page+=-1
             self.radiobtnsframe.destroy()
             self.radio_btn_gen()
-
+            self.questionlabel.destroy()
     def reset_btn_cmd(self):
         self.radiobtnsframe.destroy()
+        self.questionlabel.destroy()
         del self.attemptlist[:]
         self.page=0
         self.radio_btn_gen()
