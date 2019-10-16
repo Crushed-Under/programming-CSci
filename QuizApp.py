@@ -37,9 +37,11 @@ class QuizApp():
 
     def question_func(self,x):
         questionlabel=tk.Label(text=self.qNa[self.page][0],font=SMALLFONT)
-        questionlabel.grid(row=0,column=0)
-        if x==False:
+        if x==True:
+            questionlabel.grid(row=0,column=0)
+        elif x==False:
             questionlabel.destroy()
+            print("Check1")
 
     def radio_btn_gen(self):
         self.question_func(True)
@@ -60,10 +62,12 @@ class QuizApp():
             if self.page+1 > len(self.qNa):
                 correctattempts=[i for i, j in zip(self.attemptlist, self.correctanswers) if i == j]
                 wrongattempts=[i for i, j in zip(self.attemptlist, self.correctanswers) if i != j]
+                print(correctattempts)
+                print(wrongattempts)
                 self.rightlabel.config(text="you got {} questions right".format(len(correctattempts)))
                 self.wronglabel.config(text="you got {} questions wrong".format(len(wrongattempts)))
-                self.rightlabel.grid(row=0,column=1)
-                self.wronglabel.grid(row=0,column=2)
+                self.rightlabel.grid(row=0,column=0)
+                self.wronglabel.grid(row=1,column=0)
                 self.radiobtnsframe.destroy()
                 self.confirmlabel.destroy()
                 self.question_func(False)
