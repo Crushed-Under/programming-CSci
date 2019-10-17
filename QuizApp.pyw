@@ -39,11 +39,6 @@ class QuizApp():
         self.resetbtn.grid(row=6,column=0)
         self.radio_btn_gen()
 
-    def labelinit(self):
-        self.rightlabel=tk.Label(font=SMALLFONT)
-        self.wronglabel=tk.Label(font=SMALLFONT)
-        self.questionlabel=tk.Label(textvariable=self.questionvar,font=SMALLFONT)
-
     def radio_btn_gen(self):
         self.questionvar.set(self.qNa[self.page][0])
         self.radiobtnsframe=tk.Frame(relief="flat",borderwidth=2)
@@ -99,5 +94,6 @@ class QuizApp():
 
 if __name__ == "__main__":
     root=tk.Tk()
-    app=QuizApp(root)
+    app=QuizApp(root)   
+    root.columnconfigure(0, minsize=550)
     root.mainloop
