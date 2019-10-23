@@ -12,12 +12,12 @@ class QuizApp():
         ("What is the least populated state in the US","Kansas","Missisipi","Wyoming")
         )#List of questions and answers
         self.correctanswers=("San Juan","The Mediterranean","Doha","Chile","Wyoming")#All the correct answers
-        self.v = tk.StringVar()#Variable for radiobuttons
+        self.radbtnvar = tk.StringVar()#Variable for radiobuttons
         self.page=0
         self.radiobtnsframe=0
-        self.v.set("n/a")
+        self.radbtnvar.set("n/a")
         self.rblist=[]
-        self.attemptlist=[]        
+        self.attemptlist=[]
 
         self.questionvar=tk.StringVar()
         self.questionlabel=tk.Label(parent,textvariable=self.questionvar,font=SMALLFONT)
@@ -26,7 +26,7 @@ class QuizApp():
         self.rightlabel=tk.Label(font=SMALLFONT)
         self.wronglabel=tk.Label(font=SMALLFONT)
 
-        self.confirmlabel = tk.Label(parent, textvariable = self.v) #tkinter converts IntVar to text for textvariable
+        self.confirmlabel = tk.Label(parent, textvariable = self.radbtnvar) #tkinter converts IntVar to text for textvariable
         self.confirmlabel.grid(row=1,column=1)
 
         self.nxtbtn=tk.Button(text="Next",font=SMALLFONT,command=self.nxt_btn_cmd)
@@ -38,20 +38,21 @@ class QuizApp():
         self.resetbtn=tk.Button(text="Reset",font=SMALLFONT,command=self.reset_btn_cmd)
         self.resetbtn.grid(row=6,column=0)
         self.radio_btn_gen()
+        
 
     def radio_btn_gen(self):
         self.questionvar.set(self.qNa[self.page][0])
         self.radiobtnsframe=tk.Frame(relief="flat",borderwidth=2)
         for i in self.qNa[self.page][1:]:#Iterates through inner lists of qNa
-            self.rb = tk.Radiobutton(master=self.radiobtnsframe,variable = self.v, value = i, 
+            self.rb = tk.Radiobutton(master=self.radiobtnsframe,variable = self.radbtnvar, value = i, 
             text= i,indicatoron=False,font=SMALLFONT)
             self.rblist.append(self.rb)
             self.rb.pack(fill="both")
             self.radiobtnsframe.grid(row=1,column=0)
-        self.v.set("n/a")
+        self.radbtnvar.set("n/a")
         
     def nxt_btn_cmd(self):
-        rbValue=self.v.get()
+        rbValue=self.radbtnvar.get()
         if rbValue != "n/a":
             self.page+=1
             print(self.page)
