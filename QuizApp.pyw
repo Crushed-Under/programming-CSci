@@ -12,9 +12,9 @@ class QuizApp():
         ("What is the least populated state in the US","Kansas","Missisipi","Wyoming")
         )#List of questions and answers
         self.correctanswers=("San Juan","The Mediterranean","Doha","Chile","Wyoming")#All the correct answers
-        self.v = tk.StringVar()#Variable for radiobuttons
+        self.radbtnvar = tk.StringVar()#Variable for radiobuttons
         self.page=0
-        self.radiobtnsframe=0
+        self.v=tk.StringVar()
         self.v.set("n/a")
         self.rblist=[]#stores all the attempts made on the quiz        
         self.attemptlist=[]        
@@ -26,7 +26,7 @@ class QuizApp():
         self.rightlabel=tk.Label(font=SMALLFONT)#Displays correct answers at the end of quiz
         self.wronglabel=tk.Label(font=SMALLFONT)#Displays wrong answers at the end of quiz
 
-        self.confirmlabel = tk.Label(parent, textvariable = self.v) #tkinter converts IntVar to text for textvariable
+        self.confirmlabel = tk.Label(parent, textvariable = self.radbtnvar) #tkinter converts IntVar to text for textvariable
         self.confirmlabel.grid(row=1,column=1)
 
         self.nxtbtn=tk.Button(text="Next",font=SMALLFONT,command=self.nxt_btn_cmd)#next button
@@ -38,6 +38,7 @@ class QuizApp():
         self.resetbtn=tk.Button(text="Reset",font=SMALLFONT,command=self.reset_btn_cmd)#reset button
         self.resetbtn.grid(row=6,column=0)
         self.radio_btn_gen()
+        
 
     def radio_btn_gen(self):
         self.questionvar.set(self.qNa[self.page][0])#Creates the question label in the gui
@@ -48,7 +49,7 @@ class QuizApp():
             self.rblist.append(self.rb)
             self.rb.pack(fill="both")
             self.radiobtnsframe.grid(row=1,column=0)
-        self.v.set("n/a")
+        self.radbtnvar.set("n/a")
         
     def nxt_btn_cmd(self):#command called when next button pushed
         rbValue=self.v.get()#calls 'v' and assigns it to rbValue
